@@ -24,6 +24,7 @@ Currently only the following components are implemented (partially):
 - AccordionPanel
 - AutoComplete
 - Calendar
+- Chips
 - CommandButton
 - CommandLink
 - DataList
