@@ -81,7 +81,12 @@ public abstract class DatePicker extends AbstractInputComponent {
 
         // Emulate user input instead of using js, calendar.setDate() can't go beyond mindate/maxdate
         WebElement input = getInput();
-        input.sendKeys(Keys.chord(Keys.CONTROL, "a")); // select everything
+        if (PrimeSelenium.isMacOs()) {
+            input.sendKeys(Keys.chord(Keys.COMMAND, "a")); // select everything
+        }
+        else {
+            input.sendKeys(Keys.chord(Keys.CONTROL, "a")); // select everything
+        }
         input.sendKeys(formattedDate); // overwrite value
 
         if (ComponentUtils.hasAjaxBehavior(getRoot(), "dateSelect")) {

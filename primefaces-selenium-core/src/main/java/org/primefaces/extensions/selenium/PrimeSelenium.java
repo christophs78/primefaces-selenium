@@ -194,4 +194,19 @@ public final class PrimeSelenium {
         Capabilities cap = ((EventFiringWebDriver) getWebDriver()).getCapabilities();
         return "Firefox".equalsIgnoreCase(cap.getBrowserName());
     }
+
+    /**
+     * Do we run on MacOS?
+     *
+     * @return true if MacOS
+     */
+    public static boolean isMacOs() {
+        String os = System.getProperty("os.name").toUpperCase();
+        if ((os.indexOf("DARWIN") >= 0) || (os.indexOf("MAC") >= 0)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
