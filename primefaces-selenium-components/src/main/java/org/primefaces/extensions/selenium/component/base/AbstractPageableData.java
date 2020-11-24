@@ -39,7 +39,14 @@ public abstract class AbstractPageableData extends AbstractComponent {
     }
 
     public void selectPage(Page page) {
-        PrimeSelenium.guardAjax(page.getWebElement()).click();
+        Page activePage = getPaginator().getActivePage();
+
+        if (activePage != null && activePage.getNumber() == page.getNumber()) {
+            // we are already on the right page
+        }
+        else {
+            PrimeSelenium.guardAjax(page.getWebElement()).click();
+        }
     }
 
     public void selectPage(int number) {

@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.primefaces.extensions.selenium.PrimeSelenium;
 
 public class Paginator {
 
@@ -50,5 +51,15 @@ public class Paginator {
 
     public Page getPage(int index) {
         return getPages().get(index);
+    }
+
+    public Page getActivePage() {
+        List<Page> pages = getPages();
+        for (Page page : pages) {
+            if (PrimeSelenium.hasCssClass(page.getWebElement(), "ui-state-active")) {
+                return page;
+            }
+        }
+        return null;
     }
 }
