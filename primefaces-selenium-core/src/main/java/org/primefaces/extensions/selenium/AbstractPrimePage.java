@@ -54,5 +54,6 @@ public abstract class AbstractPrimePage {
             EventFiringWebDriver driver = (EventFiringWebDriver) webDriver;
             return (WebStorage) driver.getWrappedDriver();
         }
+        return null;
     }
 }
