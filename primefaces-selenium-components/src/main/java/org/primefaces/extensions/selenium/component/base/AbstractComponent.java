@@ -54,12 +54,26 @@ public abstract class AbstractComponent extends AbstractPrimePageFragment {
     }
 
     /**
-     * Is the event Ajaxified?
+     * Is the event for the root-element ajaxified?
      *
      * @param event Event with the `on` prefix, such as `onclick` or `onblur`.
      * @return
      */
+    protected boolean isAjaxified(String event) {
+        return isAjaxified(getRoot(), event);
+    }
+
+    /**
+     * Is the event ajaxified?
+     *
+     * @param element Element for which to do the check. (May be a child element of a complex component.) If no element is passed it defaults to getRoot().
+     * @param event Event with the `on` prefix, such as `onclick` or `onblur`.
+     * @return
+     */
     protected boolean isAjaxified(WebElement element, String event) {
+        if (element == null) {
+            element = getRoot();
+        }
         String eventCspScript = PrimeSelenium.executeScript("return PrimeFaces.csp.getRegisteredEvent('" + element.getAttribute("id") + "', '" + event + "')");
         return (ComponentUtils.isAjaxScript(element.getAttribute(event)) || ComponentUtils.isAjaxScript(eventCspScript));
     }

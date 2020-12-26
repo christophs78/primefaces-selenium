@@ -25,7 +25,7 @@ public abstract class CommandLink extends Link {
     public void click() {
         PrimeSelenium.waitGui().until(ExpectedConditions.elementToBeClickable(getRoot()));
 
-        if (isAjaxified(getRoot(), "onclick")) {
+        if (isAjaxified("onclick")) {
             PrimeSelenium.guardAjax(getRoot()).click();
         }
         else if ("_blank".equals(getRoot().getAttribute("target"))) {

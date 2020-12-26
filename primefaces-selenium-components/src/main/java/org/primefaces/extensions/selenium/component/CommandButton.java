@@ -25,7 +25,7 @@ public abstract class CommandButton extends AbstractComponent {
     public void click() {
         PrimeSelenium.waitGui().until(ExpectedConditions.elementToBeClickable(getRoot()));
 
-        if (isAjaxified(getRoot(), "onclick")) {
+        if (isAjaxified("onclick")) {
             PrimeSelenium.guardAjax(getRoot()).click();
         }
         else if ("submit".equals(getRoot().getAttribute("type"))) {
