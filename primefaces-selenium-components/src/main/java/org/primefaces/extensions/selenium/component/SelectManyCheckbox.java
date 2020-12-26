@@ -25,7 +25,6 @@ import org.openqa.selenium.support.FindBy;
 import org.primefaces.extensions.selenium.PrimeExpectedConditions;
 import org.primefaces.extensions.selenium.PrimeSelenium;
 import org.primefaces.extensions.selenium.component.base.AbstractComponent;
-import org.primefaces.extensions.selenium.component.base.ComponentUtils;
 import org.primefaces.extensions.selenium.component.model.SelectItem;
 
 public abstract class SelectManyCheckbox extends AbstractComponent {
@@ -43,7 +42,7 @@ public abstract class SelectManyCheckbox extends AbstractComponent {
             PrimeSelenium.waitGui().until(PrimeExpectedConditions.visibleAndAnimationComplete(checkbox));
 
             WebElement input = checkbox.findElement(By.tagName("input"));
-            if (ComponentUtils.isAjaxScript(input.getAttribute("onchange"))) {
+            if (isAjaxified(input, "onchange")) {
                 PrimeSelenium.guardAjax(checkbox).click();
             }
             else {

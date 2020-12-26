@@ -16,7 +16,9 @@
 package org.primefaces.extensions.selenium.component.base;
 
 import org.json.JSONObject;
+import org.openqa.selenium.WebElement;
 import org.primefaces.extensions.selenium.AbstractPrimePageFragment;
+import org.primefaces.extensions.selenium.PrimeSelenium;
 
 public abstract class AbstractComponent extends AbstractPrimePageFragment {
 
@@ -49,5 +51,16 @@ public abstract class AbstractComponent extends AbstractPrimePageFragment {
             return null;
         }
         return new JSONObject(cfg);
+    }
+
+    /**
+     * Is the event Ajaxified?
+     *
+     * @param event Event with the `on` prefix, such as `onclick` or `onblur`.
+     * @return
+     */
+    protected boolean isAjaxified(WebElement element, String event) {
+        String eventCspScript = PrimeSelenium.executeScript("return PrimeFaces.csp.getRegisteredEvent('" + element.getAttribute("id") + "', '" + event + "')");
+        return (ComponentUtils.isAjaxScript(element.getAttribute(event)) || ComponentUtils.isAjaxScript(eventCspScript));
     }
 }

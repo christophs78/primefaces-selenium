@@ -17,7 +17,6 @@ package org.primefaces.extensions.selenium.component;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.primefaces.extensions.selenium.PrimeSelenium;
-import org.primefaces.extensions.selenium.component.base.ComponentUtils;
 import org.primefaces.extensions.selenium.component.html.Link;
 
 public abstract class CommandLink extends Link {
@@ -26,7 +25,7 @@ public abstract class CommandLink extends Link {
     public void click() {
         PrimeSelenium.waitGui().until(ExpectedConditions.elementToBeClickable(getRoot()));
 
-        if (ComponentUtils.isAjaxScript(getRoot().getAttribute("onclick"))) {
+        if (isAjaxified(getRoot(), "onclick")) {
             PrimeSelenium.guardAjax(getRoot()).click();
         }
         else if ("_blank".equals(getRoot().getAttribute("target"))) {

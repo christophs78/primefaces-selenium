@@ -26,7 +26,7 @@ import org.primefaces.extensions.selenium.component.base.ComponentUtils;
 public abstract class InputText extends AbstractInputComponent {
 
     public boolean isOnchangeAjaxified() {
-        return ComponentUtils.isAjaxScript(getInput().getAttribute("onchange"));
+        return isAjaxified(getInput(), "onchange");
     }
 
     public String getValue() {

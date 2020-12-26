@@ -18,7 +18,6 @@ package org.primefaces.extensions.selenium.component;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.primefaces.extensions.selenium.PrimeSelenium;
 import org.primefaces.extensions.selenium.component.base.AbstractComponent;
-import org.primefaces.extensions.selenium.component.base.ComponentUtils;
 
 public abstract class CommandButton extends AbstractComponent {
 
@@ -26,7 +25,7 @@ public abstract class CommandButton extends AbstractComponent {
     public void click() {
         PrimeSelenium.waitGui().until(ExpectedConditions.elementToBeClickable(getRoot()));
 
-        if (ComponentUtils.isAjaxScript(getRoot().getAttribute("onclick"))) {
+        if (isAjaxified(getRoot(), "onclick")) {
             PrimeSelenium.guardAjax(getRoot()).click();
         }
         else if ("submit".equals(getRoot().getAttribute("type"))) {

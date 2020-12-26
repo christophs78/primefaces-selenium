@@ -37,7 +37,7 @@ public abstract class AutoComplete extends AbstractInputComponent {
     private WebElement panel;
 
     public boolean isOnchangeAjaxified() {
-        return ComponentUtils.isAjaxScript(getInput().getAttribute("onchange"));
+        return isAjaxified(getInput(), "onchange");
     }
 
     @Override

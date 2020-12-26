@@ -23,7 +23,6 @@ import org.openqa.selenium.WebElement;
 import org.primefaces.extensions.selenium.PrimeExpectedConditions;
 import org.primefaces.extensions.selenium.PrimeSelenium;
 import org.primefaces.extensions.selenium.component.base.AbstractInputComponent;
-import org.primefaces.extensions.selenium.component.base.ComponentUtils;
 import org.primefaces.extensions.selenium.findby.FindByParentPartialId;
 
 public abstract class SelectOneMenu extends AbstractInputComponent {
@@ -163,7 +162,7 @@ public abstract class SelectOneMenu extends AbstractInputComponent {
     }
 
     protected void click(WebElement element) {
-        if (ComponentUtils.isAjaxScript(input.getAttribute("onchange"))) {
+        if (isAjaxified(getInput(), "onchange")) {
             PrimeSelenium.guardAjax(element).click();
         }
         else {
