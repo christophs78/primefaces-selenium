@@ -74,7 +74,7 @@ public abstract class AbstractComponent extends AbstractPrimePageFragment {
         if (element == null) {
             element = getRoot();
         }
-        Boolean hasCspRegisteredEvent = PrimeSelenium.executeScript("return PrimeFaces.csp.hasRegisteredEvent('" +
+        Boolean hasCspRegisteredEvent = PrimeSelenium.executeScript("return PrimeFaces.csp.hasRegisteredAjaxifiedEvent('" +
                     element.getAttribute("id") + "', '" + event + "')");
         return (ComponentUtils.isAjaxScript(element.getAttribute(event)) || hasCspRegisteredEvent);
     }
