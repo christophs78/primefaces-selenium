@@ -27,6 +27,10 @@ import org.primefaces.extensions.selenium.spi.WebDriverProvider;
 
 public final class PrimeSelenium {
 
+    private static final String HEADLESS_MODE_SYSPROP_NAME = "webdriver.headless";
+
+    private static final String HEADLESS_MODE_SYSPROP_VAL_DEFAULT = "false";
+
     private PrimeSelenium() {
         super();
     }
@@ -234,5 +238,9 @@ public final class PrimeSelenium {
         else {
             return false;
         }
+    }
+
+    public static boolean isHeadless() {
+        return Boolean.parseBoolean(System.getProperty(HEADLESS_MODE_SYSPROP_NAME, HEADLESS_MODE_SYSPROP_VAL_DEFAULT));
     }
 }

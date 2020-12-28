@@ -15,8 +15,10 @@
  */
 package org.primefaces.extensions.selenium.spi;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.primefaces.extensions.selenium.PrimeSelenium;
 import org.primefaces.extensions.selenium.internal.ConfigProvider;
 import org.primefaces.extensions.selenium.internal.OnloadScriptsEventListener;
 
@@ -38,6 +40,14 @@ public class WebDriverProvider {
             PrimeSeleniumAdapter adapter = ConfigProvider.getInstance().getAdapter();
 
             driver = adapter.createWebDriver();
+
+            if (PrimeSelenium.isHeadless()) {
+                /*
+                 * Define window-size for headless-mode. Selenium WebDriver-default seems to be 800x600. This causes issues with modern themes (eg Saga) which
+                 * use more space for some components. (eg DatePicker-popup)
+                 */
+                driver.manage().window().setSize(new Dimension(1920, 1080));
+            }
 
             EventFiringWebDriver eventDriver = new EventFiringWebDriver(driver);
             eventDriver.register(new OnloadScriptsEventListener());
