@@ -16,6 +16,7 @@
 package org.primefaces.extensions.selenium.component.base;
 
 import org.json.JSONObject;
+import org.openqa.selenium.JavascriptException;
 import org.openqa.selenium.WebElement;
 import org.primefaces.extensions.selenium.AbstractPrimePageFragment;
 import org.primefaces.extensions.selenium.PrimeSelenium;
@@ -74,8 +75,19 @@ public abstract class AbstractComponent extends AbstractPrimePageFragment {
         if (element == null) {
             element = getRoot();
         }
-        Boolean hasCspRegisteredEvent = PrimeSelenium.executeScript("return PrimeFaces.csp.hasRegisteredAjaxifiedEvent('" +
-                    element.getAttribute("id") + "', '" + event + "')");
+        Boolean hasCspRegisteredEvent = false;
+        try {
+            hasCspRegisteredEvent = PrimeSelenium.executeScript("return PrimeFaces.csp.hasRegisteredAjaxifiedEvent('" +
+                        element.getAttribute("id") + "', '" + event + "')");
+        }
+        catch (JavascriptException ex) {
+            if (ex.getMessage().contains("javascript error: PrimeFaces.csp.hasRegisteredAjaxifiedEvent is not a function")) {
+                System.err.println("WARNING: 'pfselenium.core.csp.js' missing - not added to the page");
+            }
+            else {
+                throw ex;
+            }
+        }
         return (ComponentUtils.isAjaxScript(element.getAttribute(event)) || hasCspRegisteredEvent);
     }
 }
