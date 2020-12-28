@@ -20,7 +20,16 @@
         <byte-buddy.version>1.10.19</byte-buddy.version>
         <junit.version>5.7.0</junit.version>
         <selenium.version>3.141.59</selenium.version>
+        <jakarta.faces.version>2.3.14</jakarta.faces.version>
+        <primefaces.version>9.0-SNAPSHOT</primefaces.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -56,6 +65,20 @@
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
             <version>${byte-buddy.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <version>${jakarta.faces.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>master-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
