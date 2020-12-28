@@ -15,15 +15,22 @@
  */
 package org.primefaces.extensions.selenium.internal.component;
 
+import javax.faces.application.Application;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
-
-import org.primefaces.util.ResourceUtils;
 
 public class PrimeFacesSeleniumDummyComponent extends UIComponentBase {
 
     public PrimeFacesSeleniumDummyComponent() {
-        ResourceUtils.addComponentResource(FacesContext.getCurrentInstance(), "pfselenium.core.csp.js", "primefaces_selenium", "head");
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        UIComponent componentResource = application.createComponent("javax.faces.Output");
+        componentResource.setRendererType(application.getResourceHandler().getRendererTypeForResourceName("pfselenium.core.csp.js"));
+        componentResource.getAttributes().put("name", "pfselenium.core.csp.js");
+        componentResource.getAttributes().put("library", "primefaces_selenium");
+        componentResource.getAttributes().put("target", "head");
+        context.getViewRoot().addComponentResource(context, componentResource, "head");
     }
 
     @Override

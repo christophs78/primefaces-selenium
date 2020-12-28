@@ -18,7 +18,6 @@ package org.primefaces.extensions.selenium.internal;
 import javax.faces.context.FacesContext;
 import javax.faces.event.*;
 
-import org.primefaces.PrimeFaces;
 import org.primefaces.extensions.selenium.internal.component.PrimeFacesSeleniumSystemEventListener;
 
 public class PrimefacesSeleniumPhaseListener implements PhaseListener {
@@ -27,7 +26,7 @@ public class PrimefacesSeleniumPhaseListener implements PhaseListener {
 
     @Override
     public void beforePhase(PhaseEvent phaseEvent) {
-        if (!PrimeFaces.current().isAjaxRequest()) {
+        if (!FacesContext.getCurrentInstance().getPartialViewContext().isAjaxRequest()) {
             /*
              * PrimefacesSeleniumPhaseListener adds PrimeFacesSeleniumSystemEventListener as PreRenderViewEvent. PrimeFacesSeleniumSystemEventListener adds
              * PrimeFacesSeleniumDummyComponent to the component-tree. And finally PrimeFacesSeleniumDummyComponent adds pfselenium.core.csp.js after core.js
