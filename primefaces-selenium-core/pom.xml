@@ -24,13 +24,6 @@
         <primefaces.version>9.0-SNAPSHOT</primefaces.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>javax.inject</groupId>
@@ -75,9 +68,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.primefaces</groupId>
+            <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>${primefaces.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
