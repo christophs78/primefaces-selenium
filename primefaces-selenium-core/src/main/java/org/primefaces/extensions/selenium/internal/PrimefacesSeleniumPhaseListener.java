@@ -15,45 +15,38 @@
  */
 package org.primefaces.extensions.selenium.internal;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
-
-import javax.faces.event.PhaseEvent;
-import javax.faces.event.PhaseId;
-import javax.faces.event.PhaseListener;
+import javax.faces.context.FacesContext;
+import javax.faces.event.*;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.extensions.selenium.internal.component.PrimeFacesSeleniumSystemEventListener;
 
 public class PrimefacesSeleniumPhaseListener implements PhaseListener {
 
     private static final long serialVersionUID = 1L;
 
-    private static String pfSeleniumCoreCsp;
-
-    public PrimefacesSeleniumPhaseListener() throws IOException {
-        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(
-                    getClass().getResourceAsStream("/primefaces-selenium/pfselenium.core.csp.js"),
-                    StandardCharsets.UTF_8))) {
-            pfSeleniumCoreCsp = buffer.lines().collect(Collectors.joining("\n"));
-        }
-    }
-
     @Override
     public void beforePhase(PhaseEvent phaseEvent) {
         if (!PrimeFaces.current().isAjaxRequest()) {
-            PrimeFaces.current().executeInitScript(pfSeleniumCoreCsp);
+            FacesContext.getCurrentInstance().getViewRoot().subscribeToViewEvent(PreRenderViewEvent.class, new PrimeFacesSeleniumSystemEventListener());
+
+            /*
+             * All these other variants to not work because we can´t insert pfselenium.core.csp.js at the right place. pfselenium.core.csp.js must be inserted
+             * after core.js
+             */
+            // FacesContext.getCurrentInstance().getViewRoot().getChildren().add(new PrimeFacesSeleniumDummyComponent());
+            // ResourceUtils.addComponentResource(FacesContext.getCurrentInstance(), "core.js", "primefaces", "head");
+            // ResourceUtils.addComponentResource(FacesContext.getCurrentInstance(), "pfselenium.core.csp.js", "primefaces_selenium", "head");
         }
     }
 
     @Override
     public void afterPhase(PhaseEvent phaseEvent) {
+
     }
 
     @Override
     public PhaseId getPhaseId() {
-        return PhaseId.RESTORE_VIEW;
+        return PhaseId.RENDER_RESPONSE;
     }
 }

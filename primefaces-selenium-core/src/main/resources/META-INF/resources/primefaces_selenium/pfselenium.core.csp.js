@@ -1,13 +1,13 @@
-console.log("PF Selenium - check PrimeFaces.csp...");
+//console.log("PF Selenium - check PrimeFaces.csp...");
 if (PrimeFaces.csp) {
-    console.log("PF Selenium - PrimeFaces.csp is active");
+    //console.log("PF Selenium - PrimeFaces.csp is active");
 
     PrimeFaces.csp.REGISTERED_AJAXIFIED_EVENT_LISTENERS = new Map();
 
     var cspRegisterOrig = PrimeFaces.csp.register;
     PrimeFaces.csp.register = function(id, event, js){
-        console.log("PF Selenium - PrimeFaces.csp.register");
-        debugger;
+        //console.log("PF Selenium - PrimeFaces.csp.register");
+        //debugger;
 
         if (event) {
             cspRegisterOrig(id, event, js);
@@ -27,8 +27,8 @@ if (PrimeFaces.csp) {
     };
 
     PrimeFaces.csp.hasRegisteredAjaxifiedEvent = function(id, event) {
-        console.log("PF Selenium - PrimeFaces.csp.hasRegisteredAjaxifiedEvent");
-        debugger;
+        //console.log("PF Selenium - PrimeFaces.csp.hasRegisteredAjaxifiedEvent");
+        //debugger;
 
         if (PrimeFaces.csp.REGISTERED_AJAXIFIED_EVENT_LISTENERS.has(id)) {
             var shortenedEvent = event.substring(2, event.length),

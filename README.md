@@ -139,10 +139,6 @@ public class IndexPageTest extends AbstractPrimePageTest {
 }
 ```
 
-### Prerequisits
-
-- javax.faces.PROJECT_STAGE must not be Production to ensure all functionality like CSP works as designed. We suggest to set javax.faces.PROJECT_STAGE to SystemTest. 
-
 ### Build & Run
 
 - Build by source `mvn clean install`
