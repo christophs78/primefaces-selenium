@@ -28,15 +28,12 @@ public class PrimefacesSeleniumPhaseListener implements PhaseListener {
     @Override
     public void beforePhase(PhaseEvent phaseEvent) {
         if (!PrimeFaces.current().isAjaxRequest()) {
-            FacesContext.getCurrentInstance().getViewRoot().subscribeToViewEvent(PreRenderViewEvent.class, new PrimeFacesSeleniumSystemEventListener());
-
             /*
-             * All these other variants to not work because we can´t insert pfselenium.core.csp.js at the right place. pfselenium.core.csp.js must be inserted
-             * after core.js
+             * PrimefacesSeleniumPhaseListener adds PrimeFacesSeleniumSystemEventListener as PreRenderViewEvent. PrimeFacesSeleniumSystemEventListener adds
+             * PrimeFacesSeleniumDummyComponent to the component-tree. And finally PrimeFacesSeleniumDummyComponent adds pfselenium.core.csp.js after core.js
+             * was added by PrimeFaces itself. This works independent of JSF-stage, MOVE_TO_BOTTOM , ...
              */
-            // FacesContext.getCurrentInstance().getViewRoot().getChildren().add(new PrimeFacesSeleniumDummyComponent());
-            // ResourceUtils.addComponentResource(FacesContext.getCurrentInstance(), "core.js", "primefaces", "head");
-            // ResourceUtils.addComponentResource(FacesContext.getCurrentInstance(), "pfselenium.core.csp.js", "primefaces_selenium", "head");
+            FacesContext.getCurrentInstance().getViewRoot().subscribeToViewEvent(PreRenderViewEvent.class, new PrimeFacesSeleniumSystemEventListener());
         }
     }
 
