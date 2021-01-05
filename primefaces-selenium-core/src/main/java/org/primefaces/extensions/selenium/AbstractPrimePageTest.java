@@ -207,7 +207,6 @@ public abstract class AbstractPrimePageTest {
             return null;
         }
 
-
         Logs logs = getWebDriver().manage().logs();
         if (logs == null) {
             return null;
