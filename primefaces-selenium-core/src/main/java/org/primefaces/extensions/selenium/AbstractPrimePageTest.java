@@ -202,9 +202,12 @@ public abstract class AbstractPrimePageTest {
      */
     protected LogEntries getLogsForType(String type) {
         // Firefox does not support https://github.com/mozilla/geckodriver/issues/284
-        if (PrimeSelenium.isFirefox()) {
+        // Safari does not support https://github.com/SeleniumHQ/selenium/issues/7580
+        if (PrimeSelenium.isFirefox() || PrimeSelenium.isSafari()) {
             return null;
         }
+
+
         Logs logs = getWebDriver().manage().logs();
         if (logs == null) {
             return null;

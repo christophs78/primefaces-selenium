@@ -243,6 +243,16 @@ public final class PrimeSelenium {
     }
 
     /**
+     * Is the current WebDriver a Safari driver?
+     *
+     * @return true if Safari, false if any other browser
+     */
+    public static boolean isSafari() {
+        Capabilities cap = ((EventFiringWebDriver) getWebDriver()).getCapabilities();
+        return "Safari".equalsIgnoreCase(cap.getBrowserName());
+    }
+
+    /**
      * Do we run on MacOS?
      *
      * @return true if MacOS
