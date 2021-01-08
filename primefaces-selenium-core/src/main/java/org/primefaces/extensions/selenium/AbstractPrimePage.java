@@ -52,14 +52,25 @@ public abstract class AbstractPrimePage {
         this.webDriver = webDriver;
     }
 
+    /**
+     * Get WebStorage of WebDriver.
+     *
+     * @return Returns WebStorage of WebDriver when this feature is supported by the browser. Some browsers like Safari (as of january 2021) do not support
+     *         WebStorage via WebDriver. In this case null is returned.
+     */
     public WebStorage getWebStorage() {
+        WebDriver webDriver = this.getWebDriver();
+
+        if (webDriver instanceof EventFiringWebDriver) {
+            EventFiringWebDriver driver = (EventFiringWebDriver) webDriver;
+            webDriver = driver.getWrappedDriver();
+        }
+
         if (webDriver instanceof WebStorage) {
             return (WebStorage) webDriver;
         }
-        else if (webDriver instanceof EventFiringWebDriver) {
-            EventFiringWebDriver driver = (EventFiringWebDriver) webDriver;
-            return (WebStorage) driver.getWrappedDriver();
+        else {
+            return null;
         }
-        return null;
     }
 }
