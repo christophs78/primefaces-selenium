@@ -85,7 +85,14 @@ public final class PrimeSelenium {
      */
     public static <T> T executeScript(String script, Object... args) {
         JavascriptExecutor executor = (JavascriptExecutor) getWebDriver();
-        return (T) executor.executeScript(script, args);
+        T t = (T) executor.executeScript(script, args);
+        if (isSafari()) {
+            /*
+             * Safari has sometimes weird timing issues. (At least on Github Actions.) So wait a bit.
+             */
+            wait(100);
+        }
+        return t;
     }
 
     /**
