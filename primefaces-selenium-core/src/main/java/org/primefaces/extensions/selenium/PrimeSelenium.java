@@ -112,6 +112,12 @@ public final class PrimeSelenium {
     public static void goTo(AbstractPrimePage page) {
         WebDriver driver = WebDriverProvider.get();
         driver.get(getUrl(page));
+        if (isSafari()) {
+            /*
+             * Safari has sometimes weird timing issues. (At least on Github Actions.) So wait a bit.
+             */
+            wait(500);
+        }
     }
 
     /**
@@ -418,5 +424,19 @@ public final class PrimeSelenium {
      */
     public static boolean isHeadless() {
         return Boolean.parseBoolean(System.getProperty(HEADLESS_MODE_SYSPROP_NAME, HEADLESS_MODE_SYSPROP_VAL_DEFAULT));
+    }
+
+    /**
+     * Waits specified amount of milliseconds.
+     *
+     * @param milliseconds
+     */
+    public static void wait(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        }
+        catch (InterruptedException ex) {
+            System.err.println("Wait was interrupted!");
+        }
     }
 }
