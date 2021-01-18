@@ -165,8 +165,10 @@ public abstract class DatePicker extends AbstractInputComponent {
         if (getWidgetDate() == null) {
             return null;
         }
-        String utcTimeString = PrimeSelenium.executeScript("return " + getWidgetByIdScript() + ".getDate().toUTCString();");
-        return LocalDate.parse(utcTimeString, DateTimeFormatter.RFC_1123_DATE_TIME);
+        Long dayOfMonth = PrimeSelenium.executeScript("return " + getWidgetByIdScript() + ".getDate().getDate();");
+        Long month = PrimeSelenium.executeScript("return " + getWidgetByIdScript() + ".getDate().getMonth();");
+        Long year = PrimeSelenium.executeScript("return " + getWidgetByIdScript() + ".getDate().getFullYear();");
+        return LocalDate.of(year.intValue(), month.intValue() + 1, dayOfMonth.intValue());
     }
 
     public void setValue(LocalDate localDate) {
