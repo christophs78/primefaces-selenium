@@ -23,6 +23,7 @@ package org.primefaces.extensions.selenium.spi;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.primefaces.extensions.selenium.PrimeSelenium;
 import org.primefaces.extensions.selenium.internal.ConfigProvider;
@@ -31,6 +32,8 @@ import org.primefaces.extensions.selenium.internal.OnloadScriptsEventListener;
 public class WebDriverProvider {
 
     private static final ThreadLocal<WebDriver> WEB_DRIVER = new ThreadLocal<>();
+
+    private static final int CREATE_WEBDRIVER_RETRIES = 3;
 
     public static void set(WebDriver driver) {
         WEB_DRIVER.set(driver);
@@ -44,8 +47,23 @@ public class WebDriverProvider {
         WebDriver driver = WEB_DRIVER.get();
         if (driver == null && create) {
             PrimeSeleniumAdapter adapter = ConfigProvider.getInstance().getAdapter();
+            int fails = 0;
 
-            driver = adapter.createWebDriver();
+            do {
+                /*
+                 * Avoid issues like 2021-01-18T20:31:34.5805460Z org.openqa.selenium.WebDriverException: 2021-01-18T20:31:34.5810490Z
+                 * java.net.ConnectException: Failed to connect to localhost/0:0:0:0:0:0:0:1:27231 which sometimes occur during Github Action jobs.
+                 */
+                try {
+                    driver = adapter.createWebDriver();
+                }
+                catch (WebDriverException ex) {
+                    fails++;
+                    if (fails >= CREATE_WEBDRIVER_RETRIES) {
+                        throw ex;
+                    }
+                }
+            } while (driver == null);
 
             /*
              * Define window-size for headless-mode. Selenium WebDriver-default seems to be 800x600. This causes issues with modern themes (eg Saga) which use
