@@ -130,16 +130,9 @@ public abstract class AutoComplete extends AbstractInputComponent {
      * @param value the value to set
      */
     public void setValue(String value) {
-        WebElement input = getInput();
-        input.clear();
-
-        String send = value + Keys.TAB;
-        if (isOnchangeAjaxified()) {
-            PrimeSelenium.guardAjax(input).sendKeys(send);
-        }
-        else {
-            input.sendKeys(send);
-        }
+        setValueWithoutTab(value);
+        PrimeSelenium.waitGui().until(PrimeExpectedConditions.jQueryNotActive());
+        sendTabKey();
     }
 
     /**
@@ -151,6 +144,7 @@ public abstract class AutoComplete extends AbstractInputComponent {
         WebElement input = getInput();
         input.clear();
         ComponentUtils.sendKeys(input, value.toString());
+        PrimeSelenium.wait(getDelay() * 2);
     }
 
     /**
@@ -257,5 +251,14 @@ public abstract class AutoComplete extends AbstractInputComponent {
         // search always uses AJAX no matter what
         PrimeSelenium.executeScript(true, getWidgetByIdScript() + ".search(arguments[0]);", value);
         wait4Panel();
+    }
+
+    /**
+     * Delay to wait in milliseconds before sending each query to the server.
+     *
+     * @return Delay in milliseconds.
+     */
+    public int getDelay() {
+        return getWidgetConfiguration().getInt("delay");
     }
 }
