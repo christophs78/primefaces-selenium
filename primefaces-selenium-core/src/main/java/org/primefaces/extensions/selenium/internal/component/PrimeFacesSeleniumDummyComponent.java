@@ -31,9 +31,14 @@ public class PrimeFacesSeleniumDummyComponent extends UIComponentBase {
     public PrimeFacesSeleniumDummyComponent() {
         FacesContext context = FacesContext.getCurrentInstance();
         Application application = context.getApplication();
+        // addResource(context, application, "pfselenium.disableanimations.css");
+        addResource(context, application, "pfselenium.core.csp.js");
+    }
+
+    private void addResource(FacesContext context, Application application, String resourceName) {
         UIComponent componentResource = application.createComponent("javax.faces.Output");
-        componentResource.setRendererType(application.getResourceHandler().getRendererTypeForResourceName("pfselenium.core.csp.js"));
-        componentResource.getAttributes().put("name", "pfselenium.core.csp.js");
+        componentResource.setRendererType(application.getResourceHandler().getRendererTypeForResourceName(resourceName));
+        componentResource.getAttributes().put("name", resourceName);
         componentResource.getAttributes().put("library", "primefaces_selenium");
         componentResource.getAttributes().put("target", "head");
         context.getViewRoot().addComponentResource(context, componentResource, "head");

@@ -1,0 +1,3 @@
+.ui-connected-overlay-enter-active, .ui-connected-overlay-exit-active {
+    transition-duration: 0s;
+}
