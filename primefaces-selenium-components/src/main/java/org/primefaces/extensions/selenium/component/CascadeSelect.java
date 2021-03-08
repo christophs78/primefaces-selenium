@@ -162,7 +162,7 @@ public abstract class CascadeSelect extends AbstractInputComponent {
     }
 
     public WebElement getLabel() {
-        return getRoot().findElement(By.id(getId() + "_label"));
+        return findElement(By.className("ui-cascadeselect-label"));
     }
 
     public List<WebElement> getItems() {
