@@ -17,7 +17,7 @@
 
     <properties>
         <main.basedir>${project.parent.basedir}</main.basedir>
-        <byte-buddy.version>1.10.21</byte-buddy.version>
+        <byte-buddy.version>1.10.22</byte-buddy.version>
         <junit.version>5.7.1</junit.version>
         <selenium.version>3.141.59</selenium.version>
         <jakarta.faces.version>2.3.14</jakarta.faces.version>
