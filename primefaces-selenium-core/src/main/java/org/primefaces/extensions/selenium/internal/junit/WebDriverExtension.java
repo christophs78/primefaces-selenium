@@ -25,6 +25,7 @@ import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.WebDriver;
+import org.primefaces.extensions.selenium.PrimeSelenium;
 import org.primefaces.extensions.selenium.spi.WebDriverProvider;
 
 public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback {
@@ -38,6 +39,11 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback {
     public void afterAll(ExtensionContext context) throws Exception {
         WebDriver webDriver = WebDriverProvider.get();
         if (webDriver != null) {
+            if (PrimeSelenium.isSafari()) {
+                // special Safari treatment - see https://github.com/appium/appium/issues/9938
+                webDriver.close();
+                PrimeSelenium.wait(1000);
+            }
             webDriver.quit();
         }
         WebDriverProvider.set(null);
