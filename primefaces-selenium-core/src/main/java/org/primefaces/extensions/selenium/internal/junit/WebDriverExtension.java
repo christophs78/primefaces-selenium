@@ -25,14 +25,23 @@ import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.WebDriver;
-import org.primefaces.extensions.selenium.PrimeSelenium;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.primefaces.extensions.selenium.spi.WebDriverProvider;
 
 public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback {
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
-        WebDriverProvider.get(true);
+        WebDriver webDriver = WebDriverProvider.get(true);
+        if (webDriver instanceof EventFiringWebDriver) {
+            EventFiringWebDriver eventFiringWebDriver = (EventFiringWebDriver) webDriver;
+            WebDriver wrappedWebDriver = eventFiringWebDriver.getWrappedDriver();
+            if (wrappedWebDriver instanceof RemoteWebDriver) {
+                RemoteWebDriver remoteWebDriver = (RemoteWebDriver) wrappedWebDriver;
+                System.out.println("WebDriverExtension#beforeAll - remoteWebDriver.getSessionId: " + remoteWebDriver.getSessionId());
+            }
+        }
     }
 
     @Override
@@ -40,10 +49,6 @@ public class WebDriverExtension implements BeforeAllCallback, AfterAllCallback {
         WebDriver webDriver = WebDriverProvider.get();
         if (webDriver != null) {
             webDriver.quit();
-            if (PrimeSelenium.isSafari()) {
-                // wait a bit so Safari really get´s closed - adapted version of https://github.com/appium/appium/issues/9938
-                PrimeSelenium.wait(1000);
-            }
         }
         WebDriverProvider.set(null);
     }
