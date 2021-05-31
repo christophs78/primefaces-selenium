@@ -49,6 +49,8 @@ public class Guard {
     }
 
     public static <T> T http(T target) {
+        OnloadScripts.execute();
+
         return proxy(target, (Object p, Method method, Object[] args) -> {
             try {
                 PrimeSelenium.executeScript("pfselenium.submitting = true;");
@@ -73,6 +75,8 @@ public class Guard {
     }
 
     public static <T> T ajax(String script, Object... args) {
+        OnloadScripts.execute();
+
         try {
             WebDriver driver = WebDriverProvider.get();
             JavascriptExecutor executor = (JavascriptExecutor) driver;
