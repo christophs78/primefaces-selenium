@@ -20,7 +20,7 @@
         <byte-buddy.version>1.11.1</byte-buddy.version>
         <junit.version>5.7.2</junit.version>
         <selenium.version>3.141.59</selenium.version>
-        <jakarta.faces.version>2.3.16</jakarta.faces.version>
+        <jakarta.faces.version>3.0.2</jakarta.faces.version>
     </properties>
 
     <dependencies>
